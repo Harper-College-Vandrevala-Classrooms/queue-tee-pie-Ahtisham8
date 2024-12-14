@@ -1,9 +1,12 @@
 package com.csc;
 
+import java.util.ArrayList;
+
 public class QueueTees {
-    int SIZE = 5;
-    Cutie items[] = new Cutie[SIZE];
+    
+    ArrayList<Cutie> items = new ArrayList<>();
     int front, rear;
+    int arraySize = 5;
   
     public QueueTees() {
       front = -1;
@@ -12,69 +15,41 @@ public class QueueTees {
     
     public int size()
     {
-      return items.length;
+      return items.size();
     }
 
     public boolean isFull() {
-      if (rear == SIZE - 1) {
-        return true;
-      }
-      return false;
+      return items.size() == arraySize;
     }
   
     public boolean isEmpty() {
-      if (front == -1)
-        return true;
-      else
-        return false;
+      return items.isEmpty();
     }
   
     public void enqueue(Cutie element) {
       if (isFull()) {
-        System.out.println("Queue is full");
-      } else {
-        if (front == -1)
-          front = 0;
-        rear++;
-        items[rear] = element;
-        System.out.println("Inserted " + element);
+        throw new IllegalStateException("Queue is full");
       }
+      items.add(element);
+      System.out.println(element + " was added to the queue");
     }
   
     public Cutie dequeue() {
-      Cutie element;
       if (isEmpty()) {
-        System.out.println("Queue is empty");
-        throw new RuntimeException("Queue is empty");
-        
-      } else {
-        element = items[front];
-        if (front >= rear) {
-          front = -1;
-          rear = -1;
-        } /* Q has only one element, so we reset the queue after deleting it. */
-        else {
-          front++;
-        }
-        System.out.println("Deleted -> " + element);
-        return (element);
+        throw new IllegalStateException("Queue is empty");
       }
+
+      System.out.println(items.get(0) + " was removed to the queue");
+      return items.remove(0);
+    }
+    
+
+    public void clear()
+    {
+      items.clear();
     }
   
-    public void display() {
-      /* Function to display elements of Queue */
-      int i;
-      if (isEmpty()) {
-        System.out.println("Empty Queue");
-      } else {
-        System.out.println("\nFront index-> " + front);
-        System.out.println("Items -> ");
-        for (i = front; i <= rear; i++)
-          System.out.print(items[i] + "  ");
-  
-        System.out.println("\nRear index-> " + rear);
-      }
-    }
+    
 
   public static void main(String[] args) {
     // Create a bunch of objects that conform to the Cutie interface
@@ -86,7 +61,7 @@ public class QueueTees {
     QueueTees queue = new QueueTees();
 
     // The size of the queue should equal zero since there are no objects in it
-    queue.size();
+    System.out.println("Current size is: " + queue.size());
 
     // Add the cuties to the queue
     queue.enqueue(puppy);
@@ -94,7 +69,7 @@ public class QueueTees {
     queue.enqueue(marmoset);
 
     // The size of the queue should equal three since there are three objects in it
-    queue.size();
+    System.out.println("Current size is: " + queue.size());
 
     // The first dequeue should return the puppy
     queue.dequeue();
@@ -104,5 +79,12 @@ public class QueueTees {
 
     // The first dequeue should return the pygmy marmoset
     queue.dequeue();
+
+    queue.enqueue(marmoset);
+    System.out.println("Current size is: " + queue.size());
+    queue.clear();
+
+    // The queue size should equal zero
+    System.out.println("Current size is: " + queue.size() + " after clearing the queue");
   }
 }
