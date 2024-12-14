@@ -2,9 +2,9 @@ package com.csc;
 
 import java.util.ArrayList;
 
-public class QueueTees {
+public class QueueTees<T> {
     
-    ArrayList<Cutie> items = new ArrayList<>();
+    ArrayList<T> items = new ArrayList<>();
     int front, rear;
     int arraySize = 5;
   
@@ -26,7 +26,7 @@ public class QueueTees {
       return items.isEmpty();
     }
   
-    public void enqueue(Cutie element) {
+    public void enqueue(T element) {
       if (isFull()) {
         throw new IllegalStateException("Queue is full");
       }
@@ -34,12 +34,12 @@ public class QueueTees {
       System.out.println(element + " was added to the queue");
     }
   
-    public Cutie dequeue() {
+    public T dequeue() {
       if (isEmpty()) {
         throw new IllegalStateException("Queue is empty");
       }
 
-      System.out.println(items.get(0) + " was removed to the queue");
+      System.out.println(items.get(0) + " was removed from the queue");
       return items.remove(0);
     }
     
@@ -85,6 +85,14 @@ public class QueueTees {
     queue.clear();
 
     // The queue size should equal zero
-    System.out.println("Current size is: " + queue.size() + " after clearing the queue");
+    System.out.println("Current size is: " + queue.size() + " after clearing the queue\n\n");
+
+    //Any type of object can be added to the queue
+    System.out.println("Any type of object can be added to the Queue:");
+    queue.clear();
+    queue.enqueue("'This is a String type'");
+    queue.enqueue(345);
+    queue.enqueue(98.876);
+
   }
 }
